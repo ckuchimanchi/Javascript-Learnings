@@ -1,0 +1,30 @@
+{
+  "name": "myJSLearnings",
+  "description": "My JS Learnings with Test specs",
+  "main": "index.js",
+  "authors": [
+    "Chaitanya K"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "JS",
+    "ES6",
+    "jasmine"
+  ],
+  "moduleType": [
+    "es6"
+  ],
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jasmine-core": "jasmine#~2.3.4",
+    "bootstrap": "~3.3.6"
+  }
+}
