@@ -51,6 +51,81 @@ System.registerModule("app/es5/specs/classesSpec.js", [], function() {
         expect(e1._name).toBe("TEST");
       });
     });
+    describe("Inheritance ", function() {
+      it(' is simple..using extends', function() {
+        var Person = function() {
+          function Person(name) {
+            this.name = name;
+          }
+          return ($traceurRuntime.createClass)(Person, {
+            get name() {
+              return this._name;
+            },
+            set name(newValue) {
+              this._name = newValue;
+            }
+          }, {});
+        }();
+        var Employee = function($__super) {
+          function Employee(name, title) {
+            $traceurRuntime.superConstructor(Employee).call(this, name);
+            this.title = title;
+          }
+          return ($traceurRuntime.createClass)(Employee, {
+            get title() {
+              return this._title;
+            },
+            set title(newValue) {
+              this._title = newValue;
+            }
+          }, {}, $__super);
+        }(Person);
+        var p = new Person("CK");
+        var e = new Employee("AC", "PM");
+        expect(p.name).toBe("CK");
+        expect(e.name).toBe("AC");
+        expect(e.title).toBe("PM");
+      });
+      it("super refers to super/base class, but its value depends on the call context", function() {
+        var Person = function() {
+          function Person(name) {
+            this.name = name;
+          }
+          return ($traceurRuntime.createClass)(Person, {
+            get name() {
+              return this._name;
+            },
+            set name(newValue) {
+              this._name = newValue;
+            },
+            method: function() {
+              return "base";
+            }
+          }, {});
+        }();
+        var Employee = function($__super) {
+          function Employee(name, title) {
+            $traceurRuntime.superConstructor(Employee).call(this, name);
+            this.title = title;
+          }
+          return ($traceurRuntime.createClass)(Employee, {
+            get title() {
+              return this._title;
+            },
+            set title(newValue) {
+              this._title = newValue;
+            },
+            method: function() {
+              return "derived " + $traceurRuntime.superGet(this, Employee.prototype, "method").call(this);
+            }
+          }, {}, $__super);
+        }(Person);
+        var p = new Person("CK");
+        var e = new Employee("AC", "PM");
+        expect(p.method()).toBe("base");
+        expect(e.method()).toBe("derived base");
+      });
+    });
   });
   return {};
 });
